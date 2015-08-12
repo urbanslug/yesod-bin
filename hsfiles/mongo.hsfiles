@@ -161,8 +161,8 @@ develMainHelper' :: IO (Settings, Application) -> IO ()
 develMainHelper' getSettingsApp = do
     (settings, app) <- getSettingsApp
 
-    _ <- setEnv "wai_port" "3001"
-    _ <- setEnv "wai_host" "127.0.0.1"
+    _ <- unsetEnv "wai_port" >> setEnv "wai_port" "3001"
+    _ <- unsetEnv "wai_host" >> setEnv "wai_host" "127.0.0.1"
 
     let settings'  = setPort (3001 :: Port) settings
         settings'' = setHost ((read "127.0.0.1") :: HostPreference) settings'
@@ -577,6 +577,7 @@ library
                  , containers
                  , vector
                  , time
+                 , network
 
 executable         PROJECTNAME
     if flag(library-only)
